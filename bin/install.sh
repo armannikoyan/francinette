@@ -8,27 +8,7 @@ cd temp_____ || exit
 rm -rf francinette
 
 # download github
-git clone --recursive https://github.com/xicodomingues/francinette.git
-
-if [ "$(uname)" != "Darwin" ]; then
-	echo "Admin permissions needed to install C compilers, python, and upgrade current packages"
-	case $(lsb_release -is) in
-		"Ubuntu")
-			sudo apt update
-			sudo apt upgrade
-			sudo apt install gcc clang libpq-dev libbsd-dev libncurses-dev valgrind -y
-			sudo apt install python-dev python3-pip -y
-			sudo apt install python3-dev python3-venv python3-wheel -y
-			pip3 install wheel
-			;;
-		"Arch")
-			sudo pacman -Syu
-			sudo pacman -S gcc clang postgresql libbsd ncurses valgrind --noconfirm
-			sudo pacman -S python-pip --noconfirm
-			pip3 install wheel
-			;;
-	esac
-fi
+git clone --recursive https://github.com/armannikoyan/francinette.git
 
 cp -r francinette "$HOME"
 
@@ -37,18 +17,8 @@ rm -rf temp_____
 
 cd "$HOME"/francinette || exit
 
-# start a venv inside francinette
-if ! python3 -m venv venv ; then
-	echo "Please make sure than you can create a python virtual environment"
-	echo 'Contact me if you have no idea how to proceed (fsoares- on slack)'
-	exit 1
-fi
-
-# activate venv
-. venv/bin/activate
-
 # install requirements
-if ! pip3 install -r requirements.txt ; then
+if ! python3.10 -m pip install -r requirements.txt ; then
 	echo 'Problem launching the installer. Contact me (fsoares- on slack)'
 	exit 1
 fi
